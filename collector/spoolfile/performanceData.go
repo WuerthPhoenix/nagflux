@@ -10,14 +10,15 @@ import (
 //PerformanceData represents the nagios perfdata
 type PerformanceData struct {
 	collector.Filterable
-	Hostname         string
-	Service          string
-	Command          string
-	PerformanceLabel string
-	Unit             string
-	Time             string
-	Tags             map[string]string
-	Fields           map[string]string
+	Hostname              string
+	Service               string
+	Command               string
+	PerformanceLabel      string
+	PerformanceLabelIndex uint
+	Unit                  string
+	Time                  string
+	Tags                  map[string]string
+	Fields                map[string]string
 }
 
 //PrintForInfluxDB prints the data in influxdb lineformat
@@ -32,7 +33,7 @@ func (p PerformanceData) PrintForInfluxDB(version string) string {
 		var fieldsString = ""
 		if config.GetConfig().InfluxDBGlobal.StorePerformanceLabelAsField {
 			tableName += fmt.Sprintf(`,performanceLabelIndex=%d`,
-				0,
+				p.PerformanceLabelIndex,
 			)
 		}
 

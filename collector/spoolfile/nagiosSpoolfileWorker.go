@@ -175,9 +175,8 @@ func (w *NagiosSpoolfileWorker) PerformanceDataIterator(input map[string]string)
 		if len(perfSlice) > 0 && len(perfSlice[0]) > 1 {
 			currentCheckMultiLabel = getCheckMultiRegexMatch(perfSlice[0][1])
 		}
-
 	item:
-		for _, value := range perfSlice {
+		for index, value := range perfSlice {
 			// Allows to add tags and fields to spoolfileentries
 			tag := map[string]string{}
 			if tagString, ok := input[nagfluxTags]; ok {
@@ -195,15 +194,16 @@ func (w *NagiosSpoolfileWorker) PerformanceDataIterator(input map[string]string)
 			}
 
 			perf := PerformanceData{
-				Hostname:         input[hostname],
-				Service:          currentService,
-				Command:          currentCommand,
-				Time:             currentTime,
-				PerformanceLabel: value[1],
-				Unit:             value[3],
-				Tags:             tag,
-				Fields:           field,
-				Filterable:       target,
+				Hostname:              input[hostname],
+				Service:               currentService,
+				Command:               currentCommand,
+				Time:                  currentTime,
+				PerformanceLabel:      value[1],
+				PerformanceLabelIndex: index,
+				Unit:                  value[3],
+				Tags:                  tag,
+				Fields:                field,
+				Filterable:            target,
 			}
 
 			if currentCheckMultiLabel != "" {
