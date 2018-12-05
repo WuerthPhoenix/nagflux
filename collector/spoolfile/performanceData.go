@@ -14,7 +14,7 @@ type PerformanceData struct {
 	Service               string
 	Command               string
 	PerformanceLabel      string
-	PerformanceLabelIndex uint
+	PerformanceLabelIndex int
 	Unit                  string
 	Time                  string
 	Tags                  map[string]string
